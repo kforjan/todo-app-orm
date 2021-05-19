@@ -14,8 +14,10 @@ class Tasks extends Table {
 @UseMoor(tables: [Tasks])
 class Database extends _$Database {
   Database() : super(FlutterQueryExecutor.inDatabaseFolder(path: 'db.sqlite'));
+
   @override
   int get schemaVersion => 1;
+
   Future<List<Task>> getAllTasks() => select(tasks).get();
   Future insertTask(Task task) => into(tasks).insert(task);
   Future deleteTask(Task task) => delete(tasks).delete(task);
