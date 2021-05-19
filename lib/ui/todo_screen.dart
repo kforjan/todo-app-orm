@@ -16,10 +16,13 @@ class TodoScreen extends StatelessWidget {
   Widget _buildBody() => Column(
         children: [
           Flexible(
-            flex: 12,
+            flex: 13,
             child: _buildTodoList(),
           ),
-          Flexible(flex: 2, child: _buildTextInput()),
+          Flexible(
+            flex: 3,
+            child: _buildTextInput(),
+          ),
           Flexible(
             flex: 1,
             child: Container(),
