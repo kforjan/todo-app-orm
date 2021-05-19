@@ -1,17 +1,11 @@
-enum TaskPriority {
-  high,
-  medium,
-  low,
-}
-
 class Task {
   Task({
     required this.title,
     required this.description,
-    required this.priority,
+    this.isHighPriority = false,
   });
 
   final String title;
   final String description;
-  final TaskPriority priority;
+  final bool isHighPriority;
 }
