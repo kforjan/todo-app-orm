@@ -6,5 +6,6 @@ abstract class TodoState {}
 class TodoInitial extends TodoState {}
 
 class TodoUpdated extends TodoState {
-  TodoUpdated();
+  TodoUpdated(this.tasks);
+  final List<Task> tasks;
 }
