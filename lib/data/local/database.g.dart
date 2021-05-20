@@ -10,45 +10,36 @@ part of 'database.dart';
 class TasksCompanion extends UpdateCompanion<Task> {
   final Value<String> id;
   final Value<String> title;
-  final Value<String> description;
   final Value<bool> isHighPriority;
   const TasksCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
-    this.description = const Value.absent(),
     this.isHighPriority = const Value.absent(),
   });
   TasksCompanion.insert({
     required String id,
     required String title,
-    required String description,
-    this.isHighPriority = const Value.absent(),
+    required bool isHighPriority,
   })  : id = Value(id),
         title = Value(title),
-        description = Value(description);
+        isHighPriority = Value(isHighPriority);
   static Insertable<Task> custom({
     Expression<String>? id,
     Expression<String>? title,
-    Expression<String>? description,
     Expression<bool>? isHighPriority,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (title != null) 'title': title,
-      if (description != null) 'description': description,
       if (isHighPriority != null) 'is_high_priority': isHighPriority,
     });
   }
 
   TasksCompanion copyWith(
-      {Value<String>? id,
-      Value<String>? title,
-      Value<String>? description,
-      Value<bool>? isHighPriority}) {
+      {Value<String>? id, Value<String>? title, Value<bool>? isHighPriority}) {
     return TasksCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
-      description: description ?? this.description,
       isHighPriority: isHighPriority ?? this.isHighPriority,
     );
   }
@@ -62,9 +53,6 @@ class TasksCompanion extends UpdateCompanion<Task> {
     if (title.present) {
       map['title'] = Variable<String>(title.value);
     }
-    if (description.present) {
-      map['description'] = Variable<String>(description.value);
-    }
     if (isHighPriority.present) {
       map['is_high_priority'] = Variable<bool>(isHighPriority.value);
     }
@@ -76,7 +64,6 @@ class TasksCompanion extends UpdateCompanion<Task> {
     return (StringBuffer('TasksCompanion(')
           ..write('id: $id, ')
           ..write('title: $title, ')
-          ..write('description: $description, ')
           ..write('isHighPriority: $isHighPriority')
           ..write(')'))
         .toString();
@@ -109,30 +96,20 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
     );
   }
 
-  final VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
-  @override
-  late final GeneratedTextColumn description = _constructDescription();
-  GeneratedTextColumn _constructDescription() {
-    return GeneratedTextColumn(
-      'description',
-      $tableName,
-      false,
-    );
-  }
-
   final VerificationMeta _isHighPriorityMeta =
       const VerificationMeta('isHighPriority');
   @override
   late final GeneratedBoolColumn isHighPriority = _constructIsHighPriority();
   GeneratedBoolColumn _constructIsHighPriority() {
-    return GeneratedBoolColumn('is_high_priority', $tableName, false,
-        defaultValue: Constant(false));
+    return GeneratedBoolColumn(
+      'is_high_priority',
+      $tableName,
+      false,
+    );
   }
 
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, title, description, isHighPriority];
+  List<GeneratedColumn> get $columns => [id, title, isHighPriority];
   @override
   $TasksTable get asDslTable => this;
   @override
@@ -155,19 +132,13 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
-    if (data.containsKey('description')) {
-      context.handle(
-          _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description']!, _descriptionMeta));
-    } else if (isInserting) {
-      context.missing(_descriptionMeta);
-    }
     if (data.containsKey('is_high_priority')) {
       context.handle(
           _isHighPriorityMeta,
           isHighPriority.isAcceptableOrUnknown(
               data['is_high_priority']!, _isHighPriorityMeta));
+    } else if (isInserting) {
+      context.missing(_isHighPriorityMeta);
     }
     return context;
   }
@@ -182,8 +153,6 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       title: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}title'])!,
-      description: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}description'])!,
       isHighPriority: const BoolType()
           .mapFromDatabaseResponse(data['${effectivePrefix}is_high_priority'])!,
     );

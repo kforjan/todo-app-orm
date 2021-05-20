@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app_orm/blocs/bloc/todo_bloc.dart';
+import 'package:todo_app_orm/models/task.dart';
 
-class TodoScreen extends StatelessWidget {
+class TodoScreen extends StatefulWidget {
   const TodoScreen({Key? key}) : super(key: key);
+
+  @override
+  _TodoScreenState createState() => _TodoScreenState();
+}
+
+class _TodoScreenState extends State<TodoScreen> {
+  final TextEditingController _nameController = TextEditingController();
+  var isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +26,20 @@ class TodoScreen extends StatelessWidget {
 
   Widget _buildBody() => Column(
         children: [
-          Flexible(
-            flex: 13,
-            child: _buildTodoList(),
+          BlocConsumer<TodoBloc, TodoState>(
+            listener: (context, state) {},
+            builder: (context, state) {
+              if (state is TasksUpdated) {
+                return Flexible(
+                  flex: 13,
+                  child: _buildTodoList(state.tasks),
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
           ),
           Flexible(
             flex: 3,
@@ -34,9 +56,9 @@ class TodoScreen extends StatelessWidget {
         ],
       );
 
-  Widget _buildTodoList() => ListView.builder(
-        itemCount: 6,
-        itemBuilder: (context, index) => Container(),
+  Widget _buildTodoList(List<Task> tasks) => ListView.builder(
+        itemCount: tasks.length,
+        itemBuilder: (context, index) => Text(tasks[index].title),
       );
 
   Widget _buildInput() => Padding(
@@ -46,6 +68,7 @@ class TodoScreen extends StatelessWidget {
             Flexible(
               flex: 4,
               child: TextField(
+                controller: _nameController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderSide: BorderSide(),
@@ -56,9 +79,12 @@ class TodoScreen extends StatelessWidget {
             Flexible(
               flex: 3,
               child: CheckboxListTile(
-                //TODO
-                value: false,
-                onChanged: (isChecked) {},
+                value: isChecked,
+                onChanged: (_) {
+                  setState(() {
+                    isChecked = !isChecked;
+                  });
+                },
                 title: Text(
                   'High priority',
                   style: TextStyle(

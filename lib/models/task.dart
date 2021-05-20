@@ -5,13 +5,11 @@ class Task implements Insertable<Task> {
   Task({
     required this.id,
     required this.title,
-    required this.description,
     this.isHighPriority = false,
   });
 
   final String id;
   final String title;
-  final String description;
   final bool isHighPriority;
 
   @override
@@ -19,7 +17,6 @@ class Task implements Insertable<Task> {
     return TasksCompanion(
       id: Value(id),
       title: Value(title),
-      description: Value(description),
       isHighPriority: Value(isHighPriority),
     ).toColumns(nullToAbsent);
   }

@@ -7,8 +7,7 @@ part 'database.g.dart';
 class Tasks extends Table {
   TextColumn get id => text()();
   TextColumn get title => text()();
-  TextColumn get description => text()();
-  BoolColumn get isHighPriority => boolean().withDefault(Constant(false))();
+  BoolColumn get isHighPriority => boolean()();
 
   Set<Column> get primaryKey => {id};
 }
