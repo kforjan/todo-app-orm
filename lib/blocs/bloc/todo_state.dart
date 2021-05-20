@@ -5,4 +5,6 @@ abstract class TodoState {}
 
 class TodoInitial extends TodoState {}
 
-class TodoUpdated extends TodoState {}
+class TodoUpdated extends TodoState {
+  TodoUpdated();
+}

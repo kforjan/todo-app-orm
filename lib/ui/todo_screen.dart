@@ -21,7 +21,7 @@ class TodoScreen extends StatelessWidget {
           ),
           Flexible(
             flex: 3,
-            child: _buildTextInput(),
+            child: _buildInput(),
           ),
           Flexible(
             flex: 1,
@@ -39,14 +39,31 @@ class TodoScreen extends StatelessWidget {
         itemBuilder: (context, index) => Container(),
       );
 
-  Widget _buildTextInput() => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30.0),
-        child: TextField(
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderSide: BorderSide(),
+  Widget _buildInput() => Padding(
+        padding: const EdgeInsets.only(left: 30.0),
+        child: Row(
+          children: [
+            Flexible(
+              flex: 4,
+              child: TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(),
+                  ),
+                ),
+              ),
             ),
-          ),
+            Flexible(
+              flex: 3,
+              child: CheckboxListTile(
+                //TODO
+                value: false,
+                onChanged: (isChecked) {},
+                title: Text('High priority'),
+                controlAffinity: ListTileControlAffinity.leading,
+              ),
+            ),
+          ],
         ),
       );
 

@@ -12,7 +12,5 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   @override
   Stream<TodoState> mapEventToState(
     TodoEvent event,
-  ) async* {
-    // TODO: implement mapEventToState
-  }
+  ) async* {}
 }
