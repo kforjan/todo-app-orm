@@ -5,10 +5,12 @@ part 'database.g.dart';
 
 @UseRowClass(Task)
 class Tasks extends Table {
-  IntColumn get id => integer().autoIncrement()();
+  TextColumn get id => text()();
   TextColumn get title => text()();
   TextColumn get description => text()();
   BoolColumn get isHighPriority => boolean().withDefault(Constant(false))();
+
+  Set<Column> get primaryKey => {id};
 }
 
 @UseMoor(tables: [Tasks])

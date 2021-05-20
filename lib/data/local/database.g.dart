@@ -8,7 +8,7 @@ part of 'database.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
 class TasksCompanion extends UpdateCompanion<Task> {
-  final Value<int> id;
+  final Value<String> id;
   final Value<String> title;
   final Value<String> description;
   final Value<bool> isHighPriority;
@@ -19,14 +19,15 @@ class TasksCompanion extends UpdateCompanion<Task> {
     this.isHighPriority = const Value.absent(),
   });
   TasksCompanion.insert({
-    this.id = const Value.absent(),
+    required String id,
     required String title,
     required String description,
     this.isHighPriority = const Value.absent(),
-  })  : title = Value(title),
+  })  : id = Value(id),
+        title = Value(title),
         description = Value(description);
   static Insertable<Task> custom({
-    Expression<int>? id,
+    Expression<String>? id,
     Expression<String>? title,
     Expression<String>? description,
     Expression<bool>? isHighPriority,
@@ -40,7 +41,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
   }
 
   TasksCompanion copyWith(
-      {Value<int>? id,
+      {Value<String>? id,
       Value<String>? title,
       Value<String>? description,
       Value<bool>? isHighPriority}) {
@@ -56,7 +57,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<String>(id.value);
     }
     if (title.present) {
       map['title'] = Variable<String>(title.value);
@@ -88,10 +89,13 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
   $TasksTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedIntColumn id = _constructId();
-  GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  late final GeneratedTextColumn id = _constructId();
+  GeneratedTextColumn _constructId() {
+    return GeneratedTextColumn(
+      'id',
+      $tableName,
+      false,
+    );
   }
 
   final VerificationMeta _titleMeta = const VerificationMeta('title');
@@ -142,6 +146,8 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (data.containsKey('title')) {
       context.handle(
@@ -172,7 +178,7 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
   Task map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return Task(
-      id: const IntType()
+      id: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       title: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}title'])!,

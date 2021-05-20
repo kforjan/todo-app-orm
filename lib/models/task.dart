@@ -9,7 +9,7 @@ class Task implements Insertable<Task> {
     this.isHighPriority = false,
   });
 
-  final int id;
+  final String id;
   final String title;
   final String description;
   final bool isHighPriority;

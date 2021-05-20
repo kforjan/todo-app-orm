@@ -16,5 +16,10 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   @override
   Stream<TodoState> mapEventToState(
     TodoEvent event,
-  ) async* {}
+  ) async* {
+    if (event is LoadTasks) {
+      List<Task> tasks = await database.getAllTasks();
+      yield TodoUpdated(tasks);
+    }
+  }
 }
