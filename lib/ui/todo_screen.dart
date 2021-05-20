@@ -51,7 +51,7 @@ class _TodoScreenState extends State<TodoScreen> {
           ),
           Flexible(
             flex: 2,
-            child: _buildSubmitButton(),
+            child: _buildSubmitButton(context),
           ),
         ],
       );
@@ -99,8 +99,19 @@ class _TodoScreenState extends State<TodoScreen> {
         ),
       );
 
-  Widget _buildSubmitButton() => ElevatedButton(
+  Widget _buildSubmitButton(BuildContext context) => ElevatedButton(
         child: Text('Submit'),
-        onPressed: () {},
+        onPressed: () {
+          BlocProvider.of<TodoBloc>(context).add(
+            AddTask(
+              Task(
+                id: UniqueKey().toString(),
+                title: _nameController.text,
+                isHighPriority: isChecked,
+              ),
+            ),
+          );
+          _nameController.clear();
+        },
       );
 }

@@ -9,25 +9,25 @@ part 'todo_event.dart';
 part 'todo_state.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
-  TodoBloc(this.database) : super(TodoInitial());
+  TodoBloc(this._database) : super(TodoInitial());
 
-  final Database database;
+  final Database _database;
 
   @override
   Stream<TodoState> mapEventToState(
     TodoEvent event,
   ) async* {
     if (event is LoadTasks) {
-      List<Task> tasks = await database.getAllTasks();
+      List<Task> tasks = await _database.getAllTasks();
       yield TasksUpdated(tasks);
     }
     if (event is AddTask) {
-      database.insertTask(event.task);
+      _database.insertTask(event.task);
       final tasks = state.tasks;
       yield TasksUpdated([...tasks, event.task]);
     }
     if (event is RemoveTask) {
-      await database.deleteTask(event.task);
+      await _database.deleteTask(event.task);
     }
   }
 }
