@@ -3,8 +3,8 @@ part of 'todo_bloc.dart';
 @immutable
 abstract class TodoEvent {}
 
-class LoadTasks {}
+class LoadTasks extends TodoEvent {}
 
-class AddTask {}
+class AddTask extends TodoEvent {}
 
-class RemoveTask {}
+class RemoveTask extends TodoEvent {}

@@ -59,7 +59,13 @@ class TodoScreen extends StatelessWidget {
                 //TODO
                 value: false,
                 onChanged: (isChecked) {},
-                title: Text('High priority'),
+                title: Text(
+                  'High priority',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 controlAffinity: ListTileControlAffinity.leading,
               ),
             ),
