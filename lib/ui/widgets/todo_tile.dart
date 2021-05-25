@@ -13,8 +13,17 @@ class TodoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(title),
-      trailing: isPriority ? Icon(Icons.warning) : null,
+      tileColor: isPriority ? Colors.red[50] : null,
+      title: Text(
+        title,
+        style: TextStyle(fontSize: 20),
+      ),
+      trailing: isPriority
+          ? Icon(
+              Icons.warning,
+              color: Colors.red,
+            )
+          : null,
     );
   }
 }
