@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app_orm/blocs/bloc/todo_bloc.dart';
 import 'package:todo_app_orm/models/task.dart';
+import 'package:todo_app_orm/ui/widgets/todo_tile.dart';
 
 class TodoScreen extends StatefulWidget {
   const TodoScreen({Key? key}) : super(key: key);
@@ -56,9 +57,47 @@ class _TodoScreenState extends State<TodoScreen> {
         ],
       );
 
-  Widget _buildTodoList(List<Task> tasks) => ListView.builder(
+  Widget _buildTodoList(List<Task> tasks) => ListView.separated(
+        separatorBuilder: (context, index) => Divider(
+          color: Colors.grey,
+          thickness: 0.8,
+          height: 0,
+        ),
         itemCount: tasks.length,
-        itemBuilder: (context, index) => Text(tasks[index].title),
+        itemBuilder: (context, index) => Dismissible(
+          key: UniqueKey(),
+          direction: DismissDirection.endToStart,
+          onDismissed: (_) {
+            BlocProvider.of<TodoBloc>(context).add(RemoveTask(tasks[index]));
+          },
+          background: Container(
+            color: Colors.lightGreen,
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: EdgeInsets.only(right: 20),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.done,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Done',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          child: TodoTile(
+            title: tasks[index].title,
+            isPriority: tasks[index].isHighPriority,
+          ),
+        ),
       );
 
   Widget _buildInput() => Padding(
@@ -102,6 +141,7 @@ class _TodoScreenState extends State<TodoScreen> {
   Widget _buildSubmitButton(BuildContext context) => ElevatedButton(
         child: Text('Submit'),
         onPressed: () {
+          FocusScope.of(context).unfocus();
           BlocProvider.of<TodoBloc>(context).add(
             AddTask(
               Task(

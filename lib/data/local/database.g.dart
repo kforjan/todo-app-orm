@@ -147,14 +147,11 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   Task map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return Task(
-      id: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      title: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}title'])!,
-      isHighPriority: const BoolType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_high_priority'])!,
+      id: const StringType().mapFromDatabaseResponse(data['id'])!,
+      title: const StringType().mapFromDatabaseResponse(data['title'])!,
+      isHighPriority:
+          const BoolType().mapFromDatabaseResponse(data['is_high_priority'])!,
     );
   }
 

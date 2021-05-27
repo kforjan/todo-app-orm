@@ -28,6 +28,9 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     }
     if (event is RemoveTask) {
       await _database.deleteTask(event.task);
+      final tasks = state.tasks;
+      tasks.removeWhere((element) => element.id == event.task.id);
+      yield TasksUpdated(tasks);
     }
   }
 }
