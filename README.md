@@ -30,3 +30,6 @@ The purpose of this project was learning how to use an ORM, such as Moor, in Flu
   * Display of all existing tasks
 
 ## Preview
+Storing data           |  Deleting data
+:-------------------------:|:-------------------------:
+![Storing data preview](https://s3.gifyu.com/images/todo-orm-preview.md.gif) | ![Deleting data preview](https://s3.gifyu.com/images/todo-orm-deletion-preview.md.gif)
